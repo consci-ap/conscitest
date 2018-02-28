@@ -28,7 +28,7 @@ var app = {
         } else if(platform == "ios") {
           app.fileRoot = cordova.file.applicationDirectory + "www/";
         }
-        console.log("fileRoot2: " + app.fileRoot);
+        console.log("fileRoot: " + app.fileRoot);
         playAudio(app.fileRoot + "audio/JigsawDone.mp3");
     },
 

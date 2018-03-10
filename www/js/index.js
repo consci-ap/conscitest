@@ -1,10 +1,32 @@
 $( document ).ready(function() {
-    console.log( "index ready!" );
+    logbuffer.log( "index ready!" );
 });
 
 $( window ).on('load', function() {
-  console.log( "window ready!" );
+  logbuffer.log( "window ready!" );
 });
+
+var logbuffer = (function() {
+  var logbuffer = [];
+
+  function add(text) {
+      logbuffer.push(text);
+  };
+
+  var publc = {};
+
+  publc.log = function(text) {
+    console.log(text);
+    add(text);
+  };
+  publc.dump = function() {
+    for (i = 0; i < logbuffer.length; i++) {
+      console.log(logbuffer[i]);
+    }
+  };
+
+  return publc;
+})();
 
 var app = {
     fileRoot: "",
@@ -20,15 +42,15 @@ var app = {
     onDeviceReady: function() {
         this.receivedEvent('deviceready');
 
-        console.log("Document URL: " + document.URL);
-        console.log('onDeviceReady: ' + device.platform + ' : ' + device.model);
+        logbuffer.log("Document URL: " + document.URL);
+        logbuffer.log('onDeviceReady: ' + device.platform + ' : ' + device.model);
         var platform = device.platform.toLowerCase();
         if(platform == "android") {
           app.fileRoot = cordova.file.applicationDirectory + "www/";
         } else if(platform == "ios") {
           app.fileRoot = cordova.file.applicationDirectory + "www/";
         }
-        console.log("fileRoot 1604: " + app.fileRoot);
+        logbuffer.log("fileRoot 1604: " + app.fileRoot);
         playAudio(app.fileRoot + "audio/JigsawDone.mp3");
     },
 
@@ -41,7 +63,7 @@ var app = {
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
 
-        console.log('Received Event: ' + id);
+        logbuffer.log('Received Event: ' + id);
     }
 };
 
